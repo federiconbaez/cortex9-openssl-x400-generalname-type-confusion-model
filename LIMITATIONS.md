@@ -20,3 +20,19 @@
   1.1.1 branch commits were not read.
 - This is not a finding and nothing is attributed beyond the advisory and
   the commit.
+
+## Input domain and arithmetic (added in the hardening commit)
+
+- Address arithmetic in the model heap is checked. A length or pointer
+  read from model bytes may be huge or negative, and it ends as
+  `OutOfAllocation` or `WildPointer`, never as a wrap or a panic.
+- `run` refuses an empty TLV or one longer than `MODEL_MAX_TLV` (4096
+  bytes) with the label `InvalidInput`. That keeps every allocation
+  inside its 64 KiB region and every length in `i32` range. Real OpenSSL
+  has no such bound.
+- `tests/adversarial.rs` covers heap reads at `u64::MAX`, negative and
+  huge `ASN1_STRING.length` values, hostile data pointers, inputs outside
+  the domain, and malformed TLVs. On all of them the fix and the declared
+  control must agree with byte equality.
+- The CLI exits with status 2 and a message on malformed fixtures or on
+  non-ASCII hex.

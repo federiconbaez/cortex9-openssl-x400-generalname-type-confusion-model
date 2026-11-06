@@ -8,7 +8,7 @@ use sha2::{Digest, Sha256};
 use std::{env, fs, path::Path, process::exit};
 
 fn hex(s: &str) -> Vec<u8> {
-    if !s.len().is_multiple_of(2) || s.len() < 4 || s.len() > 258 {
+    if !s.is_ascii() || !s.len().is_multiple_of(2) || s.len() < 4 || s.len() > 258 {
         usage()
     }
     (0..s.len())
@@ -40,9 +40,26 @@ fn build(s: &str) -> Build {
     }
 }
 
+fn fail(msg: String) -> ! {
+    eprintln!("error: {msg}");
+    exit(2)
+}
+
+/// Loads fixtures; malformed files exit with status 2 and a message.
 fn load(p: &Path) -> Vec<Value> {
-    let v: Value = serde_json::from_str(&fs::read_to_string(p).expect("read")).expect("json");
-    v["cases"].as_array().expect("cases").clone()
+    let text = fs::read_to_string(p).unwrap_or_else(|e| fail(format!("{}: {e}", p.display())));
+    let v: Value = serde_json::from_str(&text).unwrap_or_else(|e| fail(format!("json: {e}")));
+    let Some(cases) = v["cases"].as_array() else {
+        fail("missing \"cases\" array".into())
+    };
+    for c in cases {
+        for k in ["name", "a", "b"] {
+            if !c[k].is_string() {
+                fail(format!("case without string field \"{k}\": {c}"))
+            }
+        }
+    }
+    cases.clone()
 }
 
 fn summary(o: &Outcome) -> String {

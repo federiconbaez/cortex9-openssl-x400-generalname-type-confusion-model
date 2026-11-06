@@ -144,7 +144,8 @@ pub fn decoded_x400(heap: &mut Heap, name: &str, tlv: &[u8]) -> u64 {
         &format!("{name}: x400 TLV bytes ({} B)", tlv.len()),
         tlv.to_vec(),
     );
-    let mut s = le32(tlv.len() as i32);
+    let len = i32::try_from(tlv.len()).expect("TLV length bounded by the caller");
+    let mut s = le32(len);
     s.extend(le32(V_ASN1_SEQUENCE));
     s.extend(data.to_le_bytes());
     s.extend(0i64.to_le_bytes());
@@ -159,12 +160,13 @@ pub fn decoded_x400(heap: &mut Heap, name: &str, tlv: &[u8]) -> u64 {
 /// ASN1_TYPE (type SEQUENCE) pointing at the ASN1_STRING.
 pub fn declared_x400(heap: &mut Heap, name: &str, tlv: &[u8]) -> u64 {
     let g = decoded_x400(heap, name, tlv);
-    let st = heap.allocs[heap.allocs.len() - 2].base; // the ASN1_STRING
+    let n = heap.allocs.len(); // decoded_x400 just pushed TLV, STRING, NAME
+    let st = heap.allocs[n - 2].base; // the ASN1_STRING
     let mut t = le32(V_ASN1_SEQUENCE);
     t.extend([0u8; 4]);
     t.extend(st.to_le_bytes());
     let ty = heap.alloc(&format!("{name}: ASN1_TYPE (16 B)"), t);
-    let gn = heap.allocs.len() - 2; // the GENERAL_NAME
+    let gn = n - 1; // the GENERAL_NAME (unchanged index after the push)
     heap.allocs[gn].bytes[8..16].copy_from_slice(&ty.to_le_bytes());
     g
 }

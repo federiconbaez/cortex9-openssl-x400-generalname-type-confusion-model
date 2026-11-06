@@ -26,7 +26,14 @@ pub enum Label {
     OutOfAllocationRead,
     /// Stopped: a read through a pointer that is not in any allocation.
     WildPointerRead,
+    /// Refused before building the heap: an input is outside the model
+    /// domain (empty or longer than `MODEL_MAX_TLV`).
+    InvalidInput,
 }
+
+/// Largest TLV the model accepts: well inside one 64 KiB heap region and
+/// in `i32` range for `ASN1_STRING.length`.
+pub const MODEL_MAX_TLV: usize = 4096;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Outcome {
@@ -39,6 +46,15 @@ pub struct Outcome {
 }
 
 pub fn run(v: Version, build: Build, a: &[u8], b: &[u8]) -> Outcome {
+    if a.is_empty() || b.is_empty() || a.len() > MODEL_MAX_TLV || b.len() > MODEL_MAX_TLV {
+        return Outcome {
+            result: None,
+            stop: None,
+            label: Label::InvalidInput,
+            reads: vec![],
+            reinterpreted_type: 0,
+        };
+    }
     let mut heap = Heap::default();
     let mk = match build {
         Build::Decoded => decoded_x400,
@@ -76,7 +92,7 @@ pub fn run(v: Version, build: Build, a: &[u8], b: &[u8]) -> Outcome {
         stop,
         label,
         reads: ctx.trace,
-        reinterpreted_type: a.len() as i32,
+        reinterpreted_type: i32::try_from(a.len()).expect("bounded by MODEL_MAX_TLV"),
     }
 }
 

@@ -47,8 +47,18 @@ pub const HEAP_BASE: u64 = 0x0001_0000;
 pub const HEAP_STRIDE: u64 = 0x0001_0000;
 
 impl Heap {
+    /// Places `bytes` in the next 64 KiB region. Allocations must be
+    /// smaller than the region (callers bound their sizes; see
+    /// `MODEL_MAX_TLV`), so regions never overlap.
     pub fn alloc(&mut self, label: &str, bytes: Vec<u8>) -> u64 {
-        let base = HEAP_BASE + HEAP_STRIDE * self.allocs.len() as u64;
+        assert!(
+            (bytes.len() as u64) < HEAP_STRIDE,
+            "allocation exceeds model region"
+        );
+        let base = (self.allocs.len() as u64)
+            .checked_mul(HEAP_STRIDE)
+            .and_then(|x| x.checked_add(HEAP_BASE))
+            .expect("model heap address space exhausted");
         self.allocs.push(Alloc {
             base,
             bytes,
@@ -63,7 +73,7 @@ impl Heap {
     fn find(&self, addr: u64) -> Option<&Alloc> {
         self.allocs
             .iter()
-            .find(|a| addr >= a.base && addr < a.base + HEAP_STRIDE)
+            .find(|a| addr >= a.base && addr - a.base < HEAP_STRIDE)
     }
 
     pub fn read(
@@ -74,7 +84,9 @@ impl Heap {
         trace: &mut Vec<Read>,
     ) -> Result<Vec<u8>, Stop> {
         let a = self.find(addr);
-        let ok = a.is_some_and(|a| addr + len <= a.base + a.bytes.len() as u64);
+        // checked: a length or address taken from model bytes may be huge
+        let end = addr.checked_add(len);
+        let ok = a.is_some_and(|a| end.is_some_and(|e| e <= a.base + a.bytes.len() as u64));
         trace.push(Read {
             at: at.to_string(),
             addr,
@@ -95,7 +107,11 @@ impl Heap {
                 len,
                 alloc: a.label.clone(),
                 alloc_size: a.bytes.len() as u64,
-                bytes_past_end: (addr + len - (a.base + a.bytes.len() as u64)).min(len),
+                bytes_past_end: {
+                    let alloc_end = a.base + a.bytes.len() as u64;
+                    let inside = alloc_end.saturating_sub(addr);
+                    len - inside.min(len)
+                },
             }),
             Some(a) => {
                 let o = (addr - a.base) as usize;
