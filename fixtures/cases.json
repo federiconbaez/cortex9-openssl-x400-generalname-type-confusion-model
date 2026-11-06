@@ -1,0 +1,14 @@
+{
+  "_note": "x400Address TLVs as the decoder stores them (tag a3, length, content). Inert byte patterns only; no certificate or CRL is built. Expected labels: fixtures/expected.json, from scripts/derive_expected.py (struct-based reinterpretation, independent of the Rust code).",
+  "cases": [
+    {"name": "x01_upstream_regression_a300", "a": "a300", "b": "a300"},
+    {"name": "x02_lengths_differ", "a": "a300", "b": "a30105"},
+    {"name": "x03_len5_read_as_null_type", "a": "a303020101", "b": "a303020102"},
+    {"name": "x04_len6_read_as_object", "a": "a30402020100", "b": "a30402020100"},
+    {"name": "x05_len4_length_read_then_data_ptr", "a": "a3020500", "b": "a3020500"},
+    {"name": "x06_len24_inert_pointer_bytes", "a": "a3165a5a5a5a5a5a41414141414141415a5a5a5a5a5a5a5a", "b": "a3165a5a5a5a5a5a41414141414141415a5a5a5a5a5a5a5a"},
+    {"name": "x07_len24_null_pointer_bytes", "a": "a3165a5a5a5a5a5a00000000000000005a5a5a5a5a5a5a5a", "b": "a3165a5a5a5a5a5a00000000000000005a5a5a5a5a5a5a5a"},
+    {"name": "x08_len16_identical", "a": "a30e5a5a5a5a5a5a5a5a5a5a5a5a5a5a", "b": "a30e5a5a5a5a5a5a5a5a5a5a5a5a5a5a"},
+    {"name": "x09_len24_last_byte_differs", "a": "a3165a5a5a5a5a5a41414141414141415a5a5a5a5a5a5a5a", "b": "a3165a5a5a5a5a5a41414141414141415a5a5a5a5a5a5a31"}
+  ]
+}

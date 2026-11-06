@@ -1,0 +1,11 @@
+[package]
+name = "cortex9-openssl-x400-generalname-type-confusion-model"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+description = "Labelled-heap model of the GENERAL_NAME x400Address type confusion (CVE-2023-0286)"
+
+[dependencies]
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.11.1"

@@ -1,0 +1,348 @@
+{
+ "cases": {
+  "x01_upstream_regression_a300": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "OutOfAllocationRead"
+   }
+  },
+  "x02_lengths_differ": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Different"
+   },
+   "Pre": {
+    "Declared": "Different",
+    "Decoded": "Different"
+   }
+  },
+  "x03_len5_read_as_null_type": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Different"
+   },
+   "Pre": {
+    "Declared": "Different",
+    "Decoded": "WrongResult"
+   }
+  },
+  "x04_len6_read_as_object": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "OutOfAllocationRead"
+   }
+  },
+  "x05_len4_length_read_then_data_ptr": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "OutOfAllocationRead"
+   }
+  },
+  "x06_len24_inert_pointer_bytes": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "WildPointerRead"
+   }
+  },
+  "x07_len24_null_pointer_bytes": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "WildPointerRead"
+   }
+  },
+  "x08_len16_identical": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Equal"
+   },
+   "Pre": {
+    "Declared": "Equal",
+    "Decoded": "WildPointerRead"
+   }
+  },
+  "x09_len24_last_byte_differs": {
+   "Fix": {
+    "Declared": "not-applicable",
+    "Decoded": "Different"
+   },
+   "Pre": {
+    "Declared": "Different",
+    "Decoded": "WildPointerRead"
+   }
+  }
+ },
+ "sweep_pre": {
+  "10": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "11": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "12": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "13": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "14": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "15": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "16": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "17": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "18": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "19": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "2": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "20": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "21": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "22": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "23": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "24": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "25": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "26": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "27": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "28": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "29": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "3": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "30": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "31": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "32": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "33": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "34": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "35": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "36": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "37": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "38": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "39": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "4": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "Different"
+  },
+  "40": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "41": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "42": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "43": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "44": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "45": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "46": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "47": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "48": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "49": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "5": {
+   "identical": "Equal",
+   "last_byte_differs": "WrongResult"
+  },
+  "50": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "51": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "52": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "53": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "54": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "55": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "56": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "57": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "58": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "59": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "6": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "60": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "61": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "62": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "63": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "64": {
+   "identical": "WildPointerRead",
+   "last_byte_differs": "WildPointerRead"
+  },
+  "7": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "8": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  },
+  "9": {
+   "identical": "OutOfAllocationRead",
+   "last_byte_differs": "OutOfAllocationRead"
+  }
+ }
+}
